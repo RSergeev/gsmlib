@@ -58,9 +58,9 @@ namespace gsmlib
     static Ref<SMSMessage> decode(string pdu,
                                   bool SCtoMEdirection = true,
                                   GsmAt *at = NULL)
-      throw(GsmException);
+      ;
 
-    static Ref<SMSMessage> decode(istream& s) throw(GsmException);
+    static Ref<SMSMessage> decode(istream& s) ;
 
     // encode pdu, return hexadecimal pdu string
     virtual string encode() = 0;
@@ -68,10 +68,10 @@ namespace gsmlib
     // send this PDU
     // returns message reference and ACK-PDU (if requested)
     // only applicate to SMS-SUBMIT and SMS-COMMAND
-    unsigned char send(Ref<SMSMessage> &ackPdu) throw(GsmException);
+    unsigned char send(Ref<SMSMessage> &ackPdu) ;
     
     // same as above, but ACK-PDU is discarded
-    unsigned char send() throw(GsmException);
+    unsigned char send() ;
 
     // create textual representation of SMS
     virtual string toString() const = 0;
@@ -142,7 +142,7 @@ namespace gsmlib
     SMSDeliverMessage();
 
     // constructor with given pdu
-    SMSDeliverMessage(string pdu) throw(GsmException);
+    SMSDeliverMessage(string pdu) ;
 
     // encode pdu, return hexadecimal pdu string
     virtual string encode();
@@ -194,7 +194,7 @@ namespace gsmlib
     SMSSubmitMessage();
 
     // constructor with given pdu
-    SMSSubmitMessage(string pdu) throw(GsmException);
+    SMSSubmitMessage(string pdu) ;
 
     // convenience constructor
     // given the text and recipient telephone number
@@ -255,7 +255,7 @@ namespace gsmlib
     SMSStatusReportMessage() {init();}
 
     // constructor with given pdu
-    SMSStatusReportMessage(string pdu) throw(GsmException);
+    SMSStatusReportMessage(string pdu) ;
 
     // encode pdu, return hexadecimal pdu string
     virtual string encode();
@@ -314,7 +314,7 @@ namespace gsmlib
     SMSCommandMessage() {init();}
 
     // constructor with given pdu
-    SMSCommandMessage(string pdu) throw(GsmException);
+    SMSCommandMessage(string pdu) ;
 
     // encode pdu, return hexadecimal pdu string
     virtual string encode();
@@ -366,7 +366,7 @@ namespace gsmlib
     SMSDeliverReportMessage() {init();}
 
     // constructor with given pdu
-    SMSDeliverReportMessage(string pdu) throw(GsmException);
+    SMSDeliverReportMessage(string pdu) ;
 
     // encode pdu, return hexadecimal pdu string
     virtual string encode();
@@ -429,7 +429,7 @@ namespace gsmlib
     SMSSubmitReportMessage() {init();}
 
     // constructor with given pdu
-    SMSSubmitReportMessage(string pdu) throw(GsmException);
+    SMSSubmitReportMessage(string pdu) ;
 
     // encode pdu, return hexadecimal pdu string
     virtual string encode();

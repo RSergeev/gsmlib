@@ -20,7 +20,7 @@
 #include <gsmlib/gsm_event.h>
 #include <gsmlib/gsm_me_ta.h>
 #include <ctype.h>
-#include <strstream>
+#include <sstream>
 
 using namespace std;
 using namespace gsmlib;
@@ -60,7 +60,7 @@ string GsmAt::cutResponse(string answer, string responseToMatch)
   return "";
 }
 
-void GsmAt::throwCmeException(string s) throw(GsmException)
+void GsmAt::throwCmeException(string s) 
 {
   if (matchResponse(s, "ERROR"))
     throw GsmException(_("unspecified ME/TA error"), ChatError);
@@ -70,7 +70,7 @@ void GsmAt::throwCmeException(string s) throw(GsmException)
     s = cutResponse(s, "+CME ERROR:");
   else
     s = cutResponse(s, "+CMS ERROR:");
-  istrstream is(s.c_str());
+  istringstream is(s);
   int error;
   is >> error;
   throw GsmException(_("ME/TA error '") +
@@ -88,7 +88,7 @@ GsmAt::GsmAt(MeTa &meTa) :
 
 string GsmAt::chat(string atCommand, string response,
                    bool ignoreErrors, bool acceptEmptyResponse)
-  throw(GsmException)
+  
 {
   string dummy;
   return chat(atCommand, response, dummy, ignoreErrors, false,
@@ -97,7 +97,7 @@ string GsmAt::chat(string atCommand, string response,
 
 string GsmAt::chat(string atCommand, string response, string &pdu,
                    bool ignoreErrors, bool expectPdu,
-                   bool acceptEmptyResponse) throw(GsmException)
+                   bool acceptEmptyResponse) 
 {
   string s;
   bool gotOk = false;           // special handling for empty SMS entries
@@ -203,7 +203,7 @@ string GsmAt::chat(string atCommand, string response, string &pdu,
 }
 
 vector<string> GsmAt::chatv(string atCommand, string response,
-                            bool ignoreErrors) throw(GsmException)
+                            bool ignoreErrors) 
 {
   string s;
   vector<string> result;
@@ -282,7 +282,7 @@ string GsmAt::normalize(string s)
 }
 
 string GsmAt::sendPdu(string atCommand, string response, string pdu,
-                      bool acceptEmptyResponse) throw(GsmException)
+                      bool acceptEmptyResponse) 
 {
   string s;
   bool errorCondition;
@@ -383,7 +383,7 @@ string GsmAt::sendPdu(string atCommand, string response, string pdu,
     ChatError);
 }
 
-string GsmAt::getLine() throw(GsmException)
+string GsmAt::getLine() 
 {
   if (_eventHandler == (GsmEvent*)NULL)
     return _port->getLine();
@@ -418,7 +418,7 @@ string GsmAt::getLine() throw(GsmException)
 }
 
 void GsmAt::putLine(string line,
-                    bool carriageReturn) throw(GsmException)
+                    bool carriageReturn) 
 {
   _port->putLine(line, carriageReturn);
   // remove empty echo line
@@ -426,12 +426,12 @@ void GsmAt::putLine(string line,
     getLine();
 }
 
-bool GsmAt::wait(GsmTime timeout) throw(GsmException)
+bool GsmAt::wait(GsmTime timeout) 
 {
   return _port->wait(timeout);
 }
 
-int GsmAt::readByte() throw(GsmException)
+int GsmAt::readByte() 
 {
   return _port->readByte();
 }

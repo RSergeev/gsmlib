@@ -42,7 +42,7 @@ namespace gsmlib
     string cutResponse(string answer, string responseToMatch);
 
     // parse CME error contained in string and throw MeTaException
-    void throwCmeException(string s) throw(GsmException);
+    void throwCmeException(string s) ;
 
   public:
     GsmAt(MeTa &meTa);
@@ -64,7 +64,7 @@ namespace gsmlib
     string chat(string atCommand = "",
                 string response = "",
                 bool ignoreErrors = false,
-                bool acceptEmptyResponse = false) throw(GsmException);
+                bool acceptEmptyResponse = false) ;
 
     // same as chat() above but also get pdu if expectPdu == true
     string chat(string atCommand,
@@ -72,13 +72,13 @@ namespace gsmlib
                 string &pdu,
                 bool ignoreErrors = false,
                 bool expectPdu = true,
-                bool acceptEmptyResponse = false) throw(GsmException);
+                bool acceptEmptyResponse = false) ;
 
     // same as above, but expect several response lines
     vector<string> chatv(string atCommand = "",
                          string response = "",
                          bool ignoreErrors = false)
-      throw(GsmException);
+      ;
 
     // removes whitespace at beginning and end of string
     string normalize(string s);
@@ -87,14 +87,14 @@ namespace gsmlib
     // at the end
     // return text after response
     string sendPdu(string atCommand, string response, string pdu,
-		   bool acceptEmptyResponse = false) throw(GsmException);
+		   bool acceptEmptyResponse = false) ;
 
     // functions from class Port
-    string getLine() throw(GsmException);
+    string getLine() ;
     void putLine(string line,
-                 bool carriageReturn = true) throw(GsmException);
-    bool wait(GsmTime timeout) throw(GsmException);
-    int readByte() throw(GsmException);
+                 bool carriageReturn = true) ;
+    bool wait(GsmTime timeout) ;
+    int readByte() ;
 
     // set event handler class, return old one
     GsmEvent *setEventHandler(GsmEvent *newHandler);

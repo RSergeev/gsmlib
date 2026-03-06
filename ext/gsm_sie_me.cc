@@ -27,24 +27,24 @@ using namespace gsmlib;
 
 // SieMe members
 
-void SieMe::init() throw(GsmException)
+void SieMe::init() 
 {
 }
 
-SieMe::SieMe(Ref<Port> port) throw(GsmException) : MeTa::MeTa(port)
+SieMe::SieMe(Ref<Port> port)  : MeTa::MeTa(port)
 {
   // initialize Siemens ME
 
   init();
 }
 
-vector<string> SieMe::getSupportedPhonebooks() throw(GsmException)
+vector<string> SieMe::getSupportedPhonebooks() 
 {
   Parser p(_at->chat("^SPBS=?", "^SPBS:"));
   return p.parseStringList();
 }
 
-string SieMe::getCurrentPhonebook() throw(GsmException)
+string SieMe::getCurrentPhonebook() 
 {
   if (_lastPhonebookName == "")
   {
@@ -59,7 +59,7 @@ string SieMe::getCurrentPhonebook() throw(GsmException)
   return _lastPhonebookName;
 }
 
-void SieMe::setPhonebook(string phonebookName) throw(GsmException)
+void SieMe::setPhonebook(string phonebookName) 
 {
   if (phonebookName != _lastPhonebookName)
   {
@@ -69,7 +69,7 @@ void SieMe::setPhonebook(string phonebookName) throw(GsmException)
 }
 
 
-IntRange SieMe:: getSupportedSignalTones() throw(GsmException)
+IntRange SieMe:: getSupportedSignalTones() 
 {
   Parser p(_at->chat("^SPST=?", "^SPST:"));
   // ^SPST: (0-4),(0,1)
@@ -79,18 +79,18 @@ IntRange SieMe:: getSupportedSignalTones() throw(GsmException)
   return typeRange;
 }
 
-void SieMe:: playSignalTone(int tone) throw(GsmException)
+void SieMe:: playSignalTone(int tone) 
 {
   _at->chat("^SPST=" + intToStr(tone) + ",1");
 }
 
-void SieMe:: stopSignalTone(int tone) throw(GsmException)
+void SieMe:: stopSignalTone(int tone) 
 {
   _at->chat("^SPST=" + intToStr(tone) + ",0");
 }
 
 
-IntRange SieMe::getSupportedRingingTones() throw(GsmException) // (AT^SRTC=?)
+IntRange SieMe::getSupportedRingingTones()  // (AT^SRTC=?)
 {
   Parser p(_at->chat("^SRTC=?", "^SRTC:"));
   // ^SRTC: (0-42),(1-5)
@@ -100,7 +100,7 @@ IntRange SieMe::getSupportedRingingTones() throw(GsmException) // (AT^SRTC=?)
   return typeRange;
 }
 
-int SieMe::getCurrentRingingTone() throw(GsmException) // (AT^SRTC?)
+int SieMe::getCurrentRingingTone()  // (AT^SRTC?)
 {
   Parser p(_at->chat("^SRTC?", "^SRTC:"));
   // ^SRTC: 41,2,0
@@ -112,12 +112,12 @@ int SieMe::getCurrentRingingTone() throw(GsmException) // (AT^SRTC?)
   return type;
 }
 
-void SieMe::setRingingTone(int tone, int volume) throw(GsmException)
+void SieMe::setRingingTone(int tone, int volume) 
 {
   _at->chat("^SRTC=" + intToStr(tone) + "," + intToStr(volume));
 }
 
-void SieMe:: playRingingTone() throw(GsmException)
+void SieMe:: playRingingTone() 
 {
   // get ringing bool
   Parser p(_at->chat("^SRTC?", "^SRTC:"));
@@ -132,7 +132,7 @@ void SieMe:: playRingingTone() throw(GsmException)
     toggleRingingTone();
 }
 
-void SieMe::stopRingingTone() throw(GsmException)
+void SieMe::stopRingingTone() 
 {
   // get ringing bool
   Parser p(_at->chat("^SRTC?", "^SRTC:"));
@@ -147,13 +147,13 @@ void SieMe::stopRingingTone() throw(GsmException)
     toggleRingingTone();
 }
 
-void SieMe::toggleRingingTone() throw(GsmException) // (AT^SRTC)
+void SieMe::toggleRingingTone()  // (AT^SRTC)
 {
   _at->chat("^SRTC");
 }
 
 // Siemens get supported binary read
-vector<ParameterRange> SieMe::getSupportedBinaryReads() throw(GsmException)
+vector<ParameterRange> SieMe::getSupportedBinaryReads() 
 {
   Parser p(_at->chat("^SBNR=?", "^SBNR:"));
   // ^SBNR: ("bmp",(0-3)),("mid",(0-4)),("vcf",(0-500)),("vcs",(0-50))
@@ -162,7 +162,7 @@ vector<ParameterRange> SieMe::getSupportedBinaryReads() throw(GsmException)
 }
 
 // Siemens get supported binary write
-vector<ParameterRange> SieMe::getSupportedBinaryWrites() throw(GsmException)
+vector<ParameterRange> SieMe::getSupportedBinaryWrites() 
 {
   Parser p(_at->chat("^SBNW=?", "^SBNW:"));
   // ^SBNW: ("bmp",(0-3)),("mid",(0-4)),("vcf",(0-500)),("vcs",(0-50)),("t9d",(0))
@@ -171,7 +171,7 @@ vector<ParameterRange> SieMe::getSupportedBinaryWrites() throw(GsmException)
 }
 
 // Siemens Binary Read
-BinaryObject SieMe::getBinary(string type, int subtype) throw(GsmException)
+BinaryObject SieMe::getBinary(string type, int subtype) 
 {
   // expect several response lines
   vector<string> result;
@@ -219,7 +219,7 @@ BinaryObject SieMe::getBinary(string type, int subtype) throw(GsmException)
 
 // Siemens Binary Write
 void SieMe::setBinary(string type, int subtype, BinaryObject obj)
-  throw(GsmException)
+  
 {
   if (obj._size <= 0)
     throw GsmException(_("bad object"), ParameterError);

@@ -17,7 +17,7 @@
 #include <gsmlib/gsm_nls.h>
 #include <ctype.h>
 #include <assert.h>
-#include <strstream>
+#include <sstream>
 
 using namespace std;
 using namespace gsmlib;
@@ -38,7 +38,7 @@ int Parser::nextChar(bool skipWhiteSpace)
   return _s[_i++];
 }
     
-bool Parser::checkEmptyParameter(bool allowNoParameter) throw(GsmException)
+bool Parser::checkEmptyParameter(bool allowNoParameter) 
 {
   int c = nextChar();
   if (c == ',' || c == -1)
@@ -55,7 +55,7 @@ bool Parser::checkEmptyParameter(bool allowNoParameter) throw(GsmException)
 }
     
 string Parser::parseString2(bool stringWithQuotationMarks)
-  throw(GsmException)
+  
 {
   int c;
   string result;
@@ -96,7 +96,7 @@ string Parser::parseString2(bool stringWithQuotationMarks)
   return result;
 }
 
-int Parser::parseInt2() throw(GsmException)
+int Parser::parseInt2() 
 {
   string s;
   int c;
@@ -108,14 +108,14 @@ int Parser::parseInt2() throw(GsmException)
   if (s.length() == 0)
     throwParseException(_("expected number"));
 
-  istrstream is(s.c_str());
+  istringstream is(s);
   is >> result;
   return result;
 }
 
-void Parser::throwParseException(string message) throw(GsmException)
+void Parser::throwParseException(string message) 
 {
-  ostrstream os;
+  ostringstream os;
   if (message.length() == 0)
     throw GsmException(stringPrintf(_("unexpected end of string '%s'"),
                                     _s.c_str()), ParserError);
@@ -129,7 +129,7 @@ Parser::Parser(string s) : _i(0), _s(s), _eos(false)
 {
 }
 
-bool Parser::parseChar(char c, bool allowNoChar) throw(GsmException)
+bool Parser::parseChar(char c, bool allowNoChar) 
 {
   if (nextChar() != c)
     if (allowNoChar)
@@ -143,7 +143,7 @@ bool Parser::parseChar(char c, bool allowNoChar) throw(GsmException)
 }
 
 vector<string> Parser::parseStringList(bool allowNoList)
-  throw(GsmException)
+  
 {
   // handle case of empty parameter
   vector<string> result;
@@ -170,7 +170,7 @@ vector<string> Parser::parseStringList(bool allowNoList)
 }
 
 vector<bool> Parser::parseIntList(bool allowNoList)
-  throw(GsmException)
+  
 {
   // handle case of empty parameter
   bool isRange = false;
@@ -266,7 +266,7 @@ vector<bool> Parser::parseIntList(bool allowNoList)
 }
 
 vector<ParameterRange> Parser::parseParameterRangeList(bool allowNoList)
-  throw(GsmException)
+  
 {
   // handle case of empty parameter
   vector<ParameterRange> result;
@@ -282,7 +282,7 @@ vector<ParameterRange> Parser::parseParameterRangeList(bool allowNoList)
 }
 
 ParameterRange Parser::parseParameterRange(bool allowNoParameterRange)
-  throw(GsmException)
+  
 {
   // handle case of empty parameter
   ParameterRange result;
@@ -298,7 +298,7 @@ ParameterRange Parser::parseParameterRange(bool allowNoParameterRange)
 }
 
 IntRange Parser::parseRange(bool allowNoRange, bool allowNonRange)
-  throw(GsmException)
+  
 {
   // handle case of empty parameter
   IntRange result;
@@ -314,7 +314,7 @@ IntRange Parser::parseRange(bool allowNoRange, bool allowNonRange)
   return result;
 }
 
-int Parser::parseInt(bool allowNoInt) throw(GsmException)
+int Parser::parseInt(bool allowNoInt) 
 {
   // handle case of empty parameter
   int result = NOT_SET;
@@ -327,7 +327,7 @@ int Parser::parseInt(bool allowNoInt) throw(GsmException)
 
 string Parser::parseString(bool allowNoString,
                            bool stringWithQuotationMarks)
-  throw(GsmException)
+  
 {
   // handle case of empty parameter
   string result;
@@ -338,7 +338,7 @@ string Parser::parseString(bool allowNoString,
   return result;
 }
 
-bool Parser::parseComma(bool allowNoComma) throw(GsmException)
+bool Parser::parseComma(bool allowNoComma) 
 {
   if (nextChar() != ',')
     if(allowNoComma)
@@ -351,7 +351,7 @@ bool Parser::parseComma(bool allowNoComma) throw(GsmException)
   return true;
 }
 
-string Parser::parseEol() throw(GsmException)
+string Parser::parseEol() 
 {
   string result;
   int c;
@@ -359,7 +359,7 @@ string Parser::parseEol() throw(GsmException)
   return result;
 }
 
-void Parser::checkEol() throw(GsmException)
+void Parser::checkEol() 
 {
   if (nextChar() != -1)
   {

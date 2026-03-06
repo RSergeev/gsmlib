@@ -19,7 +19,7 @@
 #include <sys/stat.h>
 #include <assert.h>
 #include <string.h>
-#include <strstream>
+#include <sstream>
 #include <ctype.h>
 #include <errno.h>
 #if !defined(HAVE_CONFIG_H) || defined(HAVE_UNISTD_H)
@@ -157,12 +157,9 @@ bool gsmlib::hexToBuf(const string &hexString, unsigned char *buf)
 
 string gsmlib::intToStr(int i)
 {
-  ostrstream os;
-  os << i << ends;
-  char *ss = os.str();
-  string s(ss);
-  delete[] ss;
-  return s;
+  ostringstream os;
+  os << i;
+  return os.str();
 }
 
 string gsmlib::removeWhiteSpace(string s)
@@ -241,7 +238,7 @@ bool gsmlib::isFile(string filename)
                      ParameterError);
 }
 
-void gsmlib::renameToBackupFile(string filename) throw(GsmException)
+void gsmlib::renameToBackupFile(string filename) 
 {
   string backupFilename = filename + "~";
   unlink(backupFilename.c_str());
@@ -281,14 +278,14 @@ string gsmlib::lowercase(string s)
   return result;
 }
 
-int gsmlib::checkNumber(string s) throw(GsmException)
+int gsmlib::checkNumber(string s) 
 {
   for (unsigned int i = 0; i < s.length(); ++i)
     if (! isdigit(s[i]))
       throw GsmException(stringPrintf(_("expected number, got '%s'"),
                                       s.c_str()), ParameterError);
   int result;
-  istrstream is(s.c_str());
+  istringstream is(s);
   is >> result;
   return result;
 }
@@ -344,7 +341,7 @@ bool gsmlib::interrupted()
 }
 
 void gsmlib::checkTextAndTelephone(string text, string telephone)
-  throw(GsmException)
+  
 {
   if (text.find('"') != string::npos)
     throw GsmException(

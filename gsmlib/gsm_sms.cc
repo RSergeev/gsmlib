@@ -20,7 +20,7 @@
 #include <gsmlib/gsm_util.h>
 #include <gsmlib/gsm_parser.h>
 #include <gsmlib/gsm_me_ta.h>
-#include <strstream>
+#include <sstream>
 #include <string>
 
 using namespace std;
@@ -35,7 +35,7 @@ static const string dashes =
 
 Ref<SMSMessage> SMSMessage::decode(string pdu,
                                    bool SCtoMEdirection,
-                                   GsmAt *at) throw(GsmException)
+                                   GsmAt *at) 
 {
   Ref<SMSMessage> result;
   SMSDecoder d(pdu);
@@ -88,11 +88,11 @@ Ref<SMSMessage> SMSMessage::decode(string pdu,
   return result;
 }
 
-Ref<SMSMessage> SMSMessage::decode(istream& s) throw(gsmlib::GsmException)
+Ref<SMSMessage> SMSMessage::decode(istream& s)
 {
   string pdu;
   unsigned char ScToMe; 
-	
+		
   s >> ScToMe;
   s >> pdu;
 
@@ -100,7 +100,7 @@ Ref<SMSMessage> SMSMessage::decode(istream& s) throw(gsmlib::GsmException)
 }
 
 unsigned char SMSMessage::send(Ref<SMSMessage> &ackPdu)
-  throw(GsmException)
+  
 {
   if (_messageTypeIndicator != SMS_SUBMIT &&
       _messageTypeIndicator != SMS_COMMAND)
@@ -132,7 +132,7 @@ unsigned char SMSMessage::send(Ref<SMSMessage> &ackPdu)
   return messageReference;
 }
 
-unsigned char SMSMessage::send() throw(GsmException)
+unsigned char SMSMessage::send() 
 {
   SMSMessageRef mref;
   return send(mref);
@@ -207,7 +207,7 @@ SMSDeliverMessage::SMSDeliverMessage()
   init();
 }
 
-SMSDeliverMessage::SMSDeliverMessage(string pdu) throw(GsmException)
+SMSDeliverMessage::SMSDeliverMessage(string pdu) 
 {
   SMSDecoder d(pdu);
   _serviceCentreAddress = d.getAddress(true);
@@ -278,7 +278,7 @@ string SMSDeliverMessage::encode()
 
 string SMSDeliverMessage::toString() const
 {
-  ostrstream os;
+  ostringstream os;
   os << dashes << endl
      << _("Message type: SMS-DELIVER") << endl
      << _("SC address: '") << _serviceCentreAddress._number << "'" << endl
@@ -300,12 +300,8 @@ string SMSDeliverMessage::toString() const
                  ((string)_userDataHeader).length())
      << endl
      << _("User data: '") << _userData << "'" << endl
-     << dashes << endl << endl
-     << ends;
-  char *ss = os.str();
-  string result(ss);
-  delete[] ss;
-  return result;
+     << dashes << endl << endl;
+  return os.str();
 }
 
 Address SMSDeliverMessage::address() const
@@ -340,7 +336,7 @@ SMSSubmitMessage::SMSSubmitMessage()
   init();
 }
 
-SMSSubmitMessage::SMSSubmitMessage(string pdu) throw(GsmException)
+SMSSubmitMessage::SMSSubmitMessage(string pdu) 
 { 
   SMSDecoder d(pdu);
   _serviceCentreAddress = d.getAddress(true);
@@ -420,7 +416,7 @@ string SMSSubmitMessage::encode()
 
 string SMSSubmitMessage::toString() const
 {
-  ostrstream os;
+  ostringstream os;
   os << dashes << endl
      << _("Message type: SMS-SUBMIT") << endl
      << _("SC address: '") << _serviceCentreAddress._number << "'" << endl
@@ -459,12 +455,8 @@ string SMSSubmitMessage::toString() const
                                               _userDataHeader.length())
      << endl
      << _("User data: '") << _userData << "'" << endl
-     << dashes << endl << endl
-     << ends;
-  char *ss = os.str();
-  string result(ss);
-  delete[] ss;
-  return result; 
+     << dashes << endl << endl;
+  return os.str(); 
 }
 
 Address SMSSubmitMessage::address() const
@@ -489,7 +481,7 @@ void SMSStatusReportMessage::init()
   _status = SMS_STATUS_RECEIVED;
 }
 
-SMSStatusReportMessage::SMSStatusReportMessage(string pdu) throw(GsmException)
+SMSStatusReportMessage::SMSStatusReportMessage(string pdu) 
 {
   SMSDecoder d(pdu);
   _serviceCentreAddress = d.getAddress(true);
@@ -525,7 +517,7 @@ string SMSStatusReportMessage::encode()
 
 string SMSStatusReportMessage::toString() const
 {
-  ostrstream os;
+  ostringstream os;
   os << dashes << endl
      << _("Message type: SMS-STATUS-REPORT") << endl
      << _("SC address: '") << _serviceCentreAddress._number << "'" << endl
@@ -537,12 +529,8 @@ string SMSStatusReportMessage::toString() const
      << _("Discharge time: ") << _dischargeTime.toString() << endl
      << _("Status: 0x") << hex << (unsigned int)_status << dec
      << " '" << getSMSStatusString(_status) << "'" << endl
-     << dashes << endl << endl
-     << ends;
-  char *ss = os.str();
-  string result(ss);
-  delete[] ss;
-  return result; 
+     << dashes << endl << endl;
+  return os.str(); 
 }
 
 Address SMSStatusReportMessage::address() const
@@ -569,7 +557,7 @@ void SMSCommandMessage::init()
   _commandDataLength = 0; 
 }
 
-SMSCommandMessage::SMSCommandMessage(string pdu) throw(GsmException)
+SMSCommandMessage::SMSCommandMessage(string pdu) 
 {
   SMSDecoder d(pdu);
   _serviceCentreAddress = d.getAddress(true);
@@ -612,7 +600,7 @@ string SMSCommandMessage::encode()
 
 string SMSCommandMessage::toString() const
 {
-  ostrstream os;
+  ostringstream os;
   os << dashes << endl
      << _("Message type: SMS-COMMAND") << endl
      << _("SC address: '") << _serviceCentreAddress._number << "'" << endl
@@ -627,12 +615,8 @@ string SMSCommandMessage::toString() const
      << "'" << endl
      << _("Command data length: ") << (unsigned int)_commandDataLength << endl
      << _("Command data: '") << _commandData << "'" << endl
-     << dashes << endl << endl
-     << ends;
-  char *ss = os.str();
-  string result(ss);
-  delete[] ss;
-  return result; 
+     << dashes << endl << endl;
+  return os.str(); 
 }
 
 Address SMSCommandMessage::address() const
@@ -657,7 +641,7 @@ void SMSDeliverReportMessage::init()
 }
 
 SMSDeliverReportMessage::SMSDeliverReportMessage(string pdu)
-  throw(GsmException)
+  
 {
   SMSDecoder d(pdu);
   _serviceCentreAddress = d.getAddress(true);
@@ -717,7 +701,7 @@ string SMSDeliverReportMessage::encode()
 
 string SMSDeliverReportMessage::toString() const
 {
-  ostrstream os;
+  ostringstream os;
   os << dashes << endl
      << _("Message type: SMS-DELIVER-REPORT") << endl
      << _("SC address: '") << _serviceCentreAddress._number << "'" << endl
@@ -734,12 +718,8 @@ string SMSDeliverReportMessage::toString() const
   if (_userDataLengthPresent)
     os << _("User data length: ") << (int)userDataLength() << endl
        << _("User data: '") << _userData << "'" << endl;
-  os << dashes << endl << endl
-     << ends;
-  char *ss = os.str();
-  string result(ss);
-  delete[] ss;
-  return result; 
+  os << dashes << endl << endl;
+  return os.str(); 
 }
 
 Address SMSDeliverReportMessage::address() const
@@ -764,7 +744,7 @@ void SMSSubmitReportMessage::init()
   _userDataLengthPresent = false;
 }
 
-SMSSubmitReportMessage::SMSSubmitReportMessage(string pdu) throw(GsmException)
+SMSSubmitReportMessage::SMSSubmitReportMessage(string pdu) 
 {
   SMSDecoder d(pdu);
   _serviceCentreAddress = d.getAddress(true);
@@ -823,7 +803,7 @@ string SMSSubmitReportMessage::encode()
 
 string SMSSubmitReportMessage::toString() const
 {
-  ostrstream os;
+  ostringstream os;
   os << dashes << endl
      << _("Message type: SMS-SUBMIT-REPORT") << endl
      << _("SC address: '") << _serviceCentreAddress._number << "'" << endl
@@ -841,12 +821,8 @@ string SMSSubmitReportMessage::toString() const
   if (_userDataLengthPresent)
     os << _("User data length: ") << (int)userDataLength() << endl
        << _("User data: '") << _userData << "'" << endl;
-  os << dashes << endl << endl
-     << ends;
-  char *ss = os.str();
-  string result(ss);
-  delete[] ss;
-  return result; 
+  os << dashes << endl << endl;
+  return os.str(); 
 }
 
 Address SMSSubmitReportMessage::address() const
@@ -860,4 +836,3 @@ Ref<SMSMessage> SMSSubmitReportMessage::clone()
   Ref<SMSMessage> result = new SMSSubmitReportMessage(*this);
   return result;
 }
-

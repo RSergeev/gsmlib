@@ -144,7 +144,7 @@ namespace gsmlib
   bool isFile(string filename);
 
   // make backup file adequate for this operating system
-  void renameToBackupFile(string filename) throw(GsmException);
+  void renameToBackupFile(string filename) ;
 
   // Base class for class for which copying is not allow
   // only used for debugging
@@ -165,7 +165,7 @@ namespace gsmlib
   string lowercase(string s);
 
   // convert string to number and check for all digits
-  int checkNumber(string s) throw(GsmException);
+  int checkNumber(string s) ;
 
   // like printf, but return C++ string
 #ifdef HAVE_VSNPRINTF
@@ -227,7 +227,7 @@ namespace gsmlib
   // check for valid text and telephone number
   // throw exception if error
   extern void checkTextAndTelephone(string text, string telephone)
-    throw(GsmException);
+    ;
 };
 
 #endif // GSM_UTIL_H

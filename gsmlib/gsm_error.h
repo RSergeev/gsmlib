@@ -83,7 +83,7 @@ namespace gsmlib
 
   // return descriptive text for the given error code
   // the text is already translated
-  extern string getMEErrorText(const int errorCode) throw(GsmException);
+  extern string getMEErrorText(const int errorCode) ;
 
   // SMS error codes
 
@@ -164,7 +164,7 @@ namespace gsmlib
 
   // return descriptive text for the given error code
   // the text is already translated
-  extern string getSMSErrorText(const int errorCode) throw(GsmException);
+  extern string getSMSErrorText(const int errorCode) ;
 
   // SMS status handling
   // success codes

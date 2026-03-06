@@ -19,7 +19,7 @@
 #include <gsmlib/gsm_util.h>
 #include <fcntl.h>
 #include <iostream>
-#include <strstream>
+#include <sstream>
 #include <errno.h>
 #include <stdio.h>
 #include <assert.h>
@@ -64,15 +64,12 @@ BOOL CancelIoHook(HANDLE file)
 
 // Win32SerialPort members
 
-void Win32SerialPort::throwModemException(string message) throw(GsmException)
+void Win32SerialPort::throwModemException(string message) 
 {
-  ostrstream os;
+  ostringstream os;
   os << message << " (errno: " << errno << "/" << strerror(errno) << ")"
-     << ends;
-  char *ss = os.str();
-  string s(ss);
-  delete[] ss;
-  throw GsmException(s, OSError, errno);
+     ;
+  throw GsmException(os.str(), OSError, errno);
 }
 
 void Win32SerialPort::putBack(unsigned char c)
@@ -81,7 +78,7 @@ void Win32SerialPort::putBack(unsigned char c)
   _oldChar = c;
 }
 
-int Win32SerialPort::readByte() throw(GsmException)
+int Win32SerialPort::readByte() 
 {
   if (_oldChar != -1)
   {
@@ -157,7 +154,7 @@ int Win32SerialPort::readByte() throw(GsmException)
 
 Win32SerialPort::Win32SerialPort(string device, int lineSpeed,
                                string initString, bool swHandshake)
-  throw(GsmException) :
+   :
   _oldChar(-1)
 {
  try
@@ -306,7 +303,7 @@ Win32SerialPort::Win32SerialPort(string device, int lineSpeed,
  }
 }
 
-string Win32SerialPort::getLine() throw(GsmException)
+string Win32SerialPort::getLine() 
 {
   string result;
   int c;
@@ -330,7 +327,7 @@ string Win32SerialPort::getLine() throw(GsmException)
 }
 
 void Win32SerialPort::putLine(string line,
-                             bool carriageReturn) throw(GsmException)
+                             bool carriageReturn) 
 {
 #ifndef NDEBUG
   if (debugLevel() >= 1)
@@ -430,7 +427,7 @@ void Win32SerialPort::putLine(string line,
   // in order to properly handle unsolicited result codes from the ME/TA
 }
 
-bool Win32SerialPort::wait(GsmTime timeout) throw(GsmException)
+bool Win32SerialPort::wait(GsmTime timeout) 
 {
   // See differences from UNIX
   // Why do I use Windows ?
@@ -479,7 +476,7 @@ Win32SerialPort::~Win32SerialPort()
     CloseHandle(_file);
 }
 
-int gsmlib::baudRateStrToSpeed(string baudrate) throw(GsmException)
+int gsmlib::baudRateStrToSpeed(string baudrate) 
 {
   if (baudrate == "300")
     return 300;

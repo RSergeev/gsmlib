@@ -16,12 +16,12 @@
 #include <gsmlib/gsm_nls.h>
 #include <gsmlib/gsm_error.h>
 #include <gsmlib/gsm_util.h>
-#include <strstream>
+#include <sstream>
 
 using namespace std;
 using namespace gsmlib;
 
-string gsmlib::getMEErrorText(const int errorCode) throw(GsmException)
+string gsmlib::getMEErrorText(const int errorCode) 
 {
   switch (errorCode)
   {
@@ -109,7 +109,7 @@ string gsmlib::getMEErrorText(const int errorCode) throw(GsmException)
   }
 }
 
-string gsmlib::getSMSErrorText(const int errorCode) throw(GsmException)
+string gsmlib::getSMSErrorText(const int errorCode) 
 {
   switch (errorCode)
   {

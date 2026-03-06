@@ -19,7 +19,7 @@
 #include <termios.h>
 #include <fcntl.h>
 #include <iostream>
-#include <strstream>
+#include <sstream>
 #include <cassert>
 #include <errno.h>
 #include <stdio.h>
@@ -84,15 +84,12 @@ static void stopTimer()
 
 // UnixSerialPort members
 
-void UnixSerialPort::throwModemException(string message) throw(GsmException)
+void UnixSerialPort::throwModemException(string message) 
 {
-  ostrstream os;
+  ostringstream os;
   os << message << " (errno: " << errno << "/" << strerror(errno) << ")"
-     << ends;
-  char *ss = os.str();
-  string s(ss);
-  delete[] ss;
-  throw GsmException(s, OSError, errno);
+     ;
+  throw GsmException(os.str(), OSError, errno);
 }
 
 void UnixSerialPort::putBack(unsigned char c)
@@ -101,7 +98,7 @@ void UnixSerialPort::putBack(unsigned char c)
   _oldChar = c;
 }
 
-int UnixSerialPort::readByte() throw(GsmException)
+int UnixSerialPort::readByte() 
 {
   if (_oldChar != -1)
   {
@@ -167,7 +164,7 @@ int UnixSerialPort::readByte() throw(GsmException)
 
 UnixSerialPort::UnixSerialPort(string device, speed_t lineSpeed,
                                string initString, bool swHandshake)
-  throw(GsmException) :
+   :
   _oldChar(-1), _timeoutVal(TIMEOUT_SECS)
 {
   struct termios t;
@@ -304,7 +301,7 @@ UnixSerialPort::UnixSerialPort(string device, speed_t lineSpeed,
                                   device.c_str()), OtherError);
 }
 
-string UnixSerialPort::getLine() throw(GsmException)
+string UnixSerialPort::getLine() 
 {
   string result;
   int c;
@@ -328,7 +325,7 @@ string UnixSerialPort::getLine() throw(GsmException)
 }
 
 void UnixSerialPort::putLine(string line,
-                             bool carriageReturn) throw(GsmException)
+                             bool carriageReturn) 
 {
 #ifndef NDEBUG
   if (debugLevel() >= 1)
@@ -396,7 +393,7 @@ void UnixSerialPort::putLine(string line,
   // in order to properly handle unsolicited result codes from the ME/TA
 }
 
-bool UnixSerialPort::wait(GsmTime timeout) throw(GsmException)
+bool UnixSerialPort::wait(GsmTime timeout) 
 {
   fd_set fds;
   FD_ZERO(&fds);
@@ -416,7 +413,7 @@ UnixSerialPort::~UnixSerialPort()
     close(_fd);
 }
 
-speed_t gsmlib::baudRateStrToSpeed(string baudrate) throw(GsmException)
+speed_t gsmlib::baudRateStrToSpeed(string baudrate) 
 {
   if (baudrate == "300")
     return B300;

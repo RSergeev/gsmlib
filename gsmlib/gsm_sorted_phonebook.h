@@ -53,13 +53,13 @@ namespace gsmlib
     string unescapeString(char *line, unsigned int &pos);
 
     // initial read of phonebook file
-    void readPhonebookFile(istream &pbs, string filename) throw(GsmException);
+    void readPhonebookFile(istream &pbs, string filename) ;
 
     // synchronize SortedPhonebook with file (no action if in ME)
-    void sync(bool fromDestructor) throw(GsmException);
+    void sync(bool fromDestructor) ;
     
     // throw an exception if _readonly is set
-    void checkReadonly() throw(GsmException);
+    void checkReadonly() ;
 
   public:
     // iterator defs
@@ -70,13 +70,13 @@ namespace gsmlib
     // expect indices in file if useIndices == true
     // read from file
     SortedPhonebook(string filename, bool useIndices)
-      throw(GsmException);
+      ;
     // read from stdin or start empty and write to stdout
     SortedPhonebook(bool fromStdin, bool useIndices)
-      throw(GsmException);
+      ;
 
     // constructor for ME-based phonebook
-    SortedPhonebook(PhonebookRef mePhonebook) throw(GsmException);
+    SortedPhonebook(PhonebookRef mePhonebook) ;
 
     // return maximum telephone number length
     unsigned int getMaxTelephoneLen() const;
@@ -101,7 +101,7 @@ namespace gsmlib
     int size() const {return _sortedPhonebook.size();}
     int max_size() const;
     int capacity() const;
-    bool empty() const throw(GsmException) {return size() == 0;}
+    bool empty() const  {return size() == 0;}
 
     // existing iterators remain valid after an insert or erase operation
     // note: inserting many entries in indexed mode is inefficient
@@ -110,9 +110,9 @@ namespace gsmlib
     // return position
     // insert only writes to available positions
     // warning: insert fails silently if size() == max_size()
-    iterator insert(const PhonebookEntryBase& x) throw(GsmException);
+    iterator insert(const PhonebookEntryBase& x) ;
     iterator insert(iterator position, const PhonebookEntryBase& x)
-      throw(GsmException);
+      ;
 
     PhonebookMap::size_type count(string &key)
       {return _sortedPhonebook.count(PhoneMapKey(*this, lowercase(key)));}
@@ -139,14 +139,14 @@ namespace gsmlib
     pair<iterator, iterator> equal_range(int key)
       {return _sortedPhonebook.equal_range(PhoneMapKey(*this, key));}
 
-    size_type erase(string &key) throw(GsmException);
-    size_type erase(int key) throw(GsmException);
-    void erase(iterator position) throw(GsmException);
-    void erase(iterator first, iterator last) throw(GsmException);
-    void clear() throw(GsmException);
+    size_type erase(string &key) ;
+    size_type erase(int key) ;
+    void erase(iterator position) ;
+    void erase(iterator first, iterator last) ;
+    void clear() ;
 
     // synchronize SortedPhonebook with file (no action if in ME)
-    void sync() throw(GsmException) {sync(false);}
+    void sync()  {sync(false);}
     
     // destructor
     // writes back change to file if phonebook is in file

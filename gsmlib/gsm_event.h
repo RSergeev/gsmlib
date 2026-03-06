@@ -30,7 +30,7 @@ namespace gsmlib
   {
   private:
     // dispatch CMT/CBR/CDS/CLIP etc.
-    void dispatch(string s, GsmAt &at) throw(GsmException);
+    void dispatch(string s, GsmAt &at) ;
 
   public:
     // for SMSReception, type of SMS

@@ -83,7 +83,7 @@ namespace gsmlib
 
   public:
     // constructor with given pdu
-    CBMessage(string pdu) throw(GsmException);
+    CBMessage(string pdu) ;
 
     // accessor functions
     GeographicalScope getGeographicalScope() const {return _geographicalScope;}

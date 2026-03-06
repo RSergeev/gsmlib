@@ -18,7 +18,7 @@
 #include <gsmlib/gsm_sms_codec.h>
 #include <gsmlib/gsm_util.h>
 #include <time.h>
-#include <strstream>
+#include <sstream>
 #include <iomanip>
 #ifdef HAVE_STRING_H
 #include <string.h>
@@ -124,14 +124,11 @@ string Timestamp::toString(bool appendTimeZone) const
   if (! appendTimeZone)
     return formattedTime;
 
-  ostrstream os;
+  ostringstream os;
   os << formattedTime << " (" << (_negativeTimeZone ? '-' : '+')
      << setfill('0') << setw(2) << timeZoneHours 
-     << setw(2) << timeZoneMinutes << ')' << ends;
-  char *ss = os.str();
-  string result(ss);
-  delete[] ss;
-  return result;
+     << setw(2) << timeZoneMinutes << ')';
+  return os.str();
 }
 
 bool gsmlib::operator<(const Timestamp &x, const Timestamp &y)
@@ -184,7 +181,7 @@ string TimePeriod::toString() const
     return _("not present");
   case Relative:
   {
-    ostrstream os;
+    ostringstream os;
     if (_relativeTime <= 143)
       os << ((int)_relativeTime + 1) * 5 << _(" minutes");
     else if (_relativeTime <= 167)
@@ -193,11 +190,7 @@ string TimePeriod::toString() const
       os << (int)_relativeTime - 166 << _(" days");
     else if (_relativeTime <= 143)
       os << (int)_relativeTime - 192 << _(" weeks");
-    os << ends;
-    char *ss = os.str();
-    string result(ss);
-    delete[] ss;
-    return result;
+    return os.str();
   }
   case Absolute:
     return _absoluteTime.toString();
@@ -546,11 +539,9 @@ void SMSEncoder::setSemiOctets(string semiOctets)
 void SMSEncoder::setSemiOctetsInteger(unsigned long intValue,
                                       unsigned short length)
 {
-  ostrstream os;
-  os << intValue << ends;
-  char *ss = os.str();
-  string s(ss);
-  delete[] ss;
+  ostringstream os;
+  os << intValue;
+  string s = os.str();
   assert(s.length() <= length);
   while (s.length() < length) s = '0' + s;
   setSemiOctets(s);

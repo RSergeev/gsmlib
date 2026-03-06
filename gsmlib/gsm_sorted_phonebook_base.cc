@@ -30,7 +30,7 @@ using namespace gsmlib;
 
 void PhonebookEntryBase::set(string telephone, string text, int index,
                              bool useIndex)
-  throw(GsmException)
+  
 {
   checkTextAndTelephone(text, telephone);
 
@@ -50,17 +50,17 @@ bool PhonebookEntryBase::operator==(const PhonebookEntryBase &e) const
     (! (_useIndex || e._useIndex) || _index == e._index);
 }
 
-string PhonebookEntryBase::text() const throw(GsmException)
+string PhonebookEntryBase::text() const 
 {
   return _text;
 }
 
-string PhonebookEntryBase::telephone() const throw(GsmException)
+string PhonebookEntryBase::telephone() const 
 {
   return _telephone;
 }
 
-bool PhonebookEntryBase::empty() const throw(GsmException)
+bool PhonebookEntryBase::empty() const 
 {
   return (text() == "") && (telephone() == "");
 }
@@ -72,13 +72,13 @@ Ref<PhonebookEntryBase> PhonebookEntryBase::clone()
 }
 
 PhonebookEntryBase::PhonebookEntryBase(const PhonebookEntryBase &e)
-  throw(GsmException)
+  
 {
   set(e._telephone, e._text, e._index, e._useIndex);
 }
 
 PhonebookEntryBase &PhonebookEntryBase::operator=(const PhonebookEntryBase &e)
-  throw(GsmException)
+  
 {
   set(e._telephone, e._text, e._index, e._useIndex);
   return *this;
@@ -92,7 +92,7 @@ map<string, CustomPhonebookFactory*>
 void CustomPhonebookRegistry::
 registerCustomPhonebookFactory(string backendName,
                                CustomPhonebookFactory *factory)
-  throw(GsmException)
+  
 {
   if (_factoryList == NULL)
     _factoryList = new map<string, CustomPhonebookFactory*>;
@@ -103,7 +103,7 @@ registerCustomPhonebookFactory(string backendName,
 }
       
 SortedPhonebookRef CustomPhonebookRegistry::
-createPhonebook(string backendName, string source) throw(GsmException)
+createPhonebook(string backendName, string source) 
 {
   if (_factoryList == NULL)
     _factoryList = new map<string, CustomPhonebookFactory*>;

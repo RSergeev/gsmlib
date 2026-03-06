@@ -24,7 +24,7 @@ using namespace gsmlib;
 
 // GsmEvent members
 
-void GsmEvent::dispatch(string s, GsmAt &at) throw(GsmException)
+void GsmEvent::dispatch(string s, GsmAt &at) 
 {
   SMSMessageType messageType;
   bool indication = false;
