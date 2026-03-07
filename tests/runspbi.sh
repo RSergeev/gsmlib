@@ -5,6 +5,12 @@ errorexit() {
     exit 1
 }
 
+LC_ALL=C
+LANG=C
+LINGUAS=C
+export LC_ALL LANG LINGUAS
+
+
 cp spbi2-orig.pb spbi2.pb ||
     errorexit "could not copy spbi2-orig.pb to spbi2.pb"
     

@@ -274,7 +274,7 @@ string gsmlib::lowercase(string s)
 {
   string result;
   for (unsigned int i = 0; i < s.length(); ++i)
-    result += tolower(s[i]);
+    result += tolower(static_cast<unsigned char>(s[i]));
   return result;
 }
 

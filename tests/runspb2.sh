@@ -5,6 +5,12 @@ errorexit() {
     exit 1
 }
 
+LC_ALL=C
+LANG=C
+LINGUAS=C
+export LC_ALL LANG LINGUAS
+
+
 cp spb2.pb spb-copy.pb || errorexit "could not copy spb2.pb to spb2-copy.pb"
 
 # run the test

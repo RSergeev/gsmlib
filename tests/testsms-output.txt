@@ -76,7 +76,7 @@ Status report indication: 0
 Originating address: ''
 Protocol identifier: 0x0
 Data coding scheme: default alphabet
-SC timestamp: 00/00/2000 12:00:00 AM (+0000)
+SC timestamp: 00/00/00 00:00:00 (+0000)
 User data length: 0
 User data header: 0x
 User data: ''
@@ -93,7 +93,7 @@ Status report indication: 0
 Originating address: ''
 Protocol identifier: 0x0
 Data coding scheme: default alphabet
-SC timestamp: 00/00/2000 12:00:00 AM (+0000)
+SC timestamp: 00/00/00 00:00:00 (+0000)
 User data length: 0
 User data header: 0x
 User data: ''
@@ -116,8 +116,8 @@ More messages to send: 0
 Status report qualifier: 0
 Message reference: 0
 Recipient address: ''
-SC timestamp: 00/00/2000 12:00:00 AM (+0000)
-Discharge time: 00/00/2000 12:00:00 AM (+0000)
+SC timestamp: 00/00/00 00:00:00 (+0000)
+Discharge time: 00/00/00 00:00:00 (+0000)
 Status: 0x0 'Short message received by the SME'
 ---------------------------------------------------------------------------
 
@@ -158,7 +158,7 @@ User data: 'This is a submit message, isn't it?'
 ---------------------------------------------------------------------------
 Message type: SMS-SUBMIT-REPORT
 SC address: ''
-SC timestamp: 00/00/2000 12:00:00 AM (+0000)
+SC timestamp: 00/00/00 00:00:00 (+0000)
 Protocol identifier present: 0
 Data coding scheme present: 0
 User data length present: 0

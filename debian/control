@@ -1,15 +1,16 @@
 Source: gsmlib
 Section: comm
-Priority: extra
+Priority: optional
 Maintainer: Mark Purcell <msp@debian.org>
-Build-Depends: debhelper (>= 3.0.0), chrpath
-Standards-Version: 3.7.3
+Build-Depends: debhelper-compat (= 13), chrpath, g++, make
+Standards-Version: 4.6.2
 Homepage: http://www.pxh.de/fs/gsmlib/
+Rules-Requires-Root: no
 
 Package: libgsmme-dev
 Section: libdevel
 Architecture: any
-Depends: libgsmme1c2a (= ${binary:Version}), libc6-dev
+Depends: libgsmme1c2a (= ${binary:Version}), ${misc:Depends}
 Description: Header files and static libraries for gsmlib
  Headers and static libraries for use when compiling programs with 
  gsmlib.  
@@ -22,7 +23,7 @@ Conflicts: libgsmme1, libgsmme1c102, libgsmme1c2
 Replaces: libgsmme1c102, libgsmme1c2
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: GSM mobile phone access library
  Library to access GSM mobile phones through GSM modems or IrDA devices. 
  Features include:
@@ -37,7 +38,7 @@ Description: GSM mobile phone access library
 Package: gsm-utils
 Section: comm
 Architecture: any
-Depends: ${shlibs:Depends}, adduser
+Depends: ${shlibs:Depends}, ${misc:Depends}, adduser
 Description: GSM mobile phone access applications
  Some simple command line programs to access a GSM mobile phone via
  GSM modem or IrDA.  Functions include: modification of phone books and

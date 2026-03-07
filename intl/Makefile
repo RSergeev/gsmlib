@@ -44,14 +44,14 @@ MKINSTALLDIRS = $(top_builddir)/scripts/mkinstalldirs
 l = @l@
 
 AR = ar
-CC = i486-linux-gnu-gcc
+CC = gcc
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 RANLIB = ranlib
 
 DEFS = -DGNULOCALEDIR=\"$(gnulocaledir)\" \
 -DLOCALE_ALIAS_PATH=\"$(aliaspath)\" -DHAVE_CONFIG_H
 CPPFLAGS = 
-CFLAGS = -D_REENTRANT -g -O2
+CFLAGS = -g -O2
 LDFLAGS = 
 
 COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
@@ -62,7 +62,7 @@ SOURCES = $(COMSRCS) intl-compat.c cat-compat.c
 COMSRCS = bindtextdom.c dcgettext.c dgettext.c gettext.c \
 finddomain.c loadmsgcat.c localealias.c textdomain.c l10nflist.c \
 explodename.c
-OBJECTS =  bindtextdom.$lo dcgettext.$lo dgettext.$lo gettext.$lo \
+OBJECTS = $(GETTOBJS) bindtextdom.$lo dcgettext.$lo dgettext.$lo gettext.$lo \
 finddomain.$lo loadmsgcat.$lo localealias.$lo textdomain.$lo l10nflist.$lo \
 explodename.$lo
 CATOBJS = cat-compat.$lo ../po/cat-id-tbl.$lo
@@ -81,7 +81,7 @@ DISTFILES.gettext = libintl.glibc intlh.inst.in
 
 INCLUDES = -I.. -I. -I$(top_srcdir)/intl -I$(top_srcdir)/lib
 
-all: all-no
+all: all-yes
 
 all-yes: libintl.$la intlh.inst
 all-no:
@@ -112,7 +112,7 @@ check: all
 install: install-exec install-data
 install-exec: all
 	if test "$(PACKAGE)" = "gettext" \
-	   && test '' = '$(GETTOBJS)'; then \
+	   && test '$(GETTOBJS)' = '$(GETTOBJS)'; then \
 	  if test -r $(MKINSTALLDIRS); then \
 	    $(MKINSTALLDIRS) $(libdir) $(includedir); \
 	  else \

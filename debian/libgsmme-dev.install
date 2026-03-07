@@ -1,0 +1,7 @@
+usr/include/
+usr/lib/libgsmme.so
+usr/lib/libgsmext.so
+usr/lib/libgsmme.a
+usr/lib/libgsmext.a
+usr/lib/libgsmme.la
+usr/lib/libgsmext.la
