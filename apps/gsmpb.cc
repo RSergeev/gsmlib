@@ -195,7 +195,7 @@ void deleteNotPresent(SortedPhonebookRef sourcePhonebook,
                       bool indexed, bool verbose)
 {
   for (SortedPhonebookBase::iterator i = destPhonebook->begin();
-       i != destPhonebook->end(); ++i)
+       i != destPhonebook->end(); )
   {
     pair<SortedPhonebookBase::iterator, SortedPhonebookBase::iterator> range;
     if (indexed)
@@ -230,12 +230,15 @@ void deleteNotPresent(SortedPhonebookRef sourcePhonebook,
           cout << stringPrintf(_(" (index #%d)"), i->index());
         cout << endl;
       }
-      destPhonebook->erase(i);
+      SortedPhonebookBase::iterator toErase = i++;
+      destPhonebook->erase(toErase);
 #ifdef BUGGY_MAP_ERASE
-	  deleteNotPresent(sourcePhonebook, destPhonebook, indexed, verbose);
-	  return;
+      deleteNotPresent(sourcePhonebook, destPhonebook, indexed, verbose);
+      return;
 #endif
+      continue;
     }
+    ++i;
   }
 }
 

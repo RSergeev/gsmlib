@@ -99,37 +99,28 @@ string Timestamp::toString(bool appendTimeZone) const
   short timeZoneHours = timeZoneMinutes / 60;
   timeZoneMinutes %= 60;
 
-  // format date and time in a locale-specific way
-  struct tm t;
-  t.tm_sec = _seconds;
-  t.tm_min = _minute;
-  t.tm_hour = _hour;
-  t.tm_mon = _month - 1;
-  // year 2000 heuristics, SMSs cannot be older than start of GSM network
-  t.tm_year = _year < 80 ? _year + 100 : _year;
-  t.tm_mday = _day;
-  t.tm_isdst = -1;
-  t.tm_yday = 0;
-  t.tm_wday = 0;
-  
-#ifdef BROKEN_STRFTIME
-  char formattedTime[1024];
-  strftime(formattedTime, 1024, "%x %X", &t);
-#else
-  int formattedTimeSize = strftime(NULL, INT_MAX, "%x %X", &t) + 1;
-  char *formattedTime = (char*)alloca(sizeof(char) * formattedTimeSize);
-  strftime(formattedTime, formattedTimeSize, "%x %X", &t);
-#endif
-
-  if (! appendTimeZone)
-    return formattedTime;
+  int year = _year;
+  if (year < 0) year = 0;
+  int year2 = year % 100;
 
   ostringstream os;
-  os << formattedTime << " (" << (_negativeTimeZone ? '-' : '+')
-     << setfill('0') << setw(2) << timeZoneHours 
+  os << setfill('0')
+     << setw(2) << _month << "/"
+     << setw(2) << _day << "/"
+     << setw(2) << year2 << " "
+     << setw(2) << _hour << ":"
+     << setw(2) << _minute << ":"
+     << setw(2) << _seconds;
+
+  if (! appendTimeZone)
+    return os.str();
+
+  os << " (" << (_negativeTimeZone ? '-' : '+')
+     << setw(2) << timeZoneHours
      << setw(2) << timeZoneMinutes << ')';
   return os.str();
 }
+
 
 bool gsmlib::operator<(const Timestamp &x, const Timestamp &y)
 {
